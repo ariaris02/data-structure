@@ -1,0 +1,40 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+
+int main()
+{
+    printf("2025-03-27, 24115960, 백수진\n");
+    typedef struct stdent {
+        char name[20];
+        int kor;
+        int math;
+        double avg;
+    } student;
+    
+    student std1 = {"홍길동", 100, 80};
+    
+    student std2;
+    std1.avg = (std1.kor + std1.math) / 2;
+    strcpy(std2.name,"김정훈");
+    std2.kor = 90;
+    std2.math = 80;
+    std2.avg = (std2.kor + std2.math) / 2;
+    
+    student *std3;
+    std3 = (student*)malloc(sizeof(student));
+    
+    strcpy(std3->name,"백수진");
+    std3 -> kor = 79;
+    std3 -> math = 75;
+    std3 -> avg = (std3->kor + std3->math) / 2;
+    
+    printf("\n= 이름\t국어\t수학\t평균 =\n");
+    
+    printf("%4s\t%4d\t%4d\t%4.2f\n", std1.name, std1.kor, std1.math, std1.avg);
+    printf("%4s\t%4d\t%4d\t%4.2f\n", std2.name, std2.kor, std2.math, std2.avg);
+    printf("%4s\t%4d\t%4d\t%4.2f\n", std3->name, std3->kor, std3->math, std3->avg);
+
+    return 0;
+}

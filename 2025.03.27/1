@@ -1,0 +1,13 @@
+#include <stdio.h>
+
+int main()
+{
+    printf("2025-03-27, 24115960, 백수진\n");
+    
+    int sale[4] = {152,209, 251, 312};
+    
+    printf("sale[0] = %u,\t sale[0] = %d\n", &sale[0], sale[0]);
+    printf("sale[3] = %u,\t sale[3] = %d\n", &sale[3], sale[3]);
+    
+    return 0;
+}
