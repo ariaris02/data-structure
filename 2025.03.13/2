@@ -1,0 +1,5 @@
+#include<stdio.h>
+int main(){
+    printf("2025-03-13, 24115960, 백수진\n");
+    printf("char 크기 : %d\nint 크기 : %d\nshort 크기 : %d\nlong 크기 : %d\nlong 크기 : %d\nfloat 크기 : %d\ndouble 크기 : %d\n")
+}  
