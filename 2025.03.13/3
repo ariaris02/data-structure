@@ -1,9 +1,8 @@
 #include<stdio.h>
-int main(){
-    printf("2025-03-13, 24115960, 백수진\n"); 
-    short s = -32767;
-    unsigned short us = (unsigned short)(s - 2);
-    printf("short : %d\n", s);
-    printf("unsigned : %%u\n", us);
-    return 0;
+void main(){
+    short num = -32767;
+    unsigned short sh_num = num;
+    printf("2025-03-13, 24115960 백수진\n");
+    printf("short : %d\n", num);
+    printf("unsigned : %d\n", sh_num);
 }

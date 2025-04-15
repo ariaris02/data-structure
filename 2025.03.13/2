@@ -1,5 +1,20 @@
-#include<stdio.h>
-int main(){
+#include <stdio.h>
+void main(){
     printf("2025-03-13, 24115960, 백수진\n");
-    printf("char 크기 : %d\nint 크기 : %d\nshort 크기 : %d\nlong 크기 : %d\nlong 크기 : %d\nfloat 크기 : %d\ndouble 크기 : %d\n")
-}  
+    
+    char c;
+    int i;
+    short s;
+    float f;
+    long l;
+    double d;
+    printf("\n");
+    
+    printf("char 크기 : %d\n", sizeof(c));
+    printf("int 크기 : %d\n", sizeof(i));
+    printf("short 크기 : %d\n", sizeof(s));
+    printf("long 크기 : %d\n", sizeof(f));
+    printf("float 크기 : %d\n", sizeof(l));
+    printf("double 크기 : %d\n", sizeof(d));
+    
+}

@@ -1,0 +1,12 @@
+#include<stdio.h>
+
+void main() {
+    double sum = 0.0;
+    int i;
+    for(i = 1; i <= 10000; i++)
+        sum = sum + 0.1;
+        
+    printf("2025-03-13, 24115960 백수진\n");
+    printf("\n== 실수 0.1을 만번 더한 결과 (double 사용) ==\n");
+    printf("sum = %lf \n\n", sum);
+}
