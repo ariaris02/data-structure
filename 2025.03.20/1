@@ -1,0 +1,8 @@
+#include<stdio.h>
+void main(){
+    char ch;
+    printf("2023-03-20, 24115960, 백수진\n");
+    printf("문자를 입력하세요 ");
+    scanf("%c", &ch, 1);
+    printf("%c 문자의 ASCII코드 : %d \n", ch, ch);
+}
