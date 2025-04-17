@@ -1,0 +1,73 @@
+#include<stdio.h>
+#define Max_degree 120
+
+typedef struct Terms {
+	float coef;
+	int exp;
+} Terms[Max_degree];
+
+typedef struct poly {
+	int count;
+	Terms term;
+} poly;
+
+poly poly_add(poly A, poly B) {
+	poly C;
+	int A_pt = 0, B_pt = 0, C_pt = 0;
+
+	while ((A.count > A_pt) || (B.count > B_pt))
+	{
+		if (A.term[A_pt].exp == B.term[B_pt].exp) {
+			C.term[C_pt].coef = A.term[A_pt].coef + B.term[B_pt].coef;
+			C.term[C_pt].exp = A.term[A_pt].exp;
+			A_pt++; B_pt++; C_pt++;
+		}
+		else if (A.term[A_pt].exp > B.term[B_pt].exp) {
+			C.term[C_pt].coef = A.term[A_pt].coef;
+			C.term[C_pt].exp = A.term[A_pt].exp;
+			A_pt++; C_pt++;
+		}
+		else {
+			C.term[C_pt].coef = B.term[B_pt].coef;
+			C.term[C_pt].exp = B.term[B_pt].exp;
+			B_pt++; C_pt++;
+		}
+	}	
+	for (; A.count > A_pt; A_pt++) {
+		C.term[C_pt].coef = A.term[A_pt].coef;
+		C.term[C_pt].exp = A.term[A_pt].exp;
+		C_pt++; 
+	}
+
+for (; B.count > B_pt; B_pt++) {
+		C.term[C_pt].coef = B.term[B_pt].coef;
+		C.term[C_pt].exp = B.term[B_pt].exp;
+		C_pt++; 
+	}
+	C.count = C_pt;
+	return C;
+}
+
+void printPoly(poly P)
+{
+	for (int i = 0; i < P.count; i++)
+		printf("%1.0fx^%d  ", P.term[i].coef, P.term[i].exp);
+	printf("\n");
+}
+
+int main() {
+	poly A = { 2, { {1, 10}, {4, 1} } };
+	poly B = { 3, { {3, 5}, {-6, 1}, {7, 0} } };
+	poly C;
+
+	C = poly_add(A, B);
+
+    printf("2025-04-17, 24115960, 백수진\n");
+	printf(" A(x) = "); printPoly(A);
+	printf(" B(x) = "); printPoly(B);
+	printf(" C(x) = "); printPoly(C);
+
+	printf("A(x)의 항의 수 : %d\n", A.count);
+	printf("B(x)의 항의 수 : %d\n", B.count);
+	printf("C(x)의 항의 수 : %d\n", C.count);
+}
