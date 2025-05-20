@@ -1,0 +1,81 @@
+// [실습 #7-1] array_Queue
+#include <stdio.h>
+#include <stdlib.h>
+#define Q_SIZE 5
+
+typedef char element;
+element queue[Q_SIZE];
+int front = -1, rear = -1;
+
+void In_que(element item) {
+    if (rear >= Q_SIZE - 1) {
+        printf("Queue is full! \n");
+        exit(1);
+    }
+    else queue[++rear] = item;
+}
+
+element Del_que() {
+    if (front == rear) {
+        printf("Queue is empty! \n");
+        exit(1);
+    }
+    else return queue[++front];
+}
+
+void del() {
+    if (front == rear) {
+        printf("Queue is empty! \n");
+        exit(1);
+    }
+    else front++;
+}
+
+element peek() {
+    if (front == rear) {
+        printf("Queue is empty! \n");
+        exit(1);
+    }
+    else return queue[front + 1];
+}
+
+void printQ() {
+    int i;
+    printf("Queue:[");
+    for (i = front + 1; i <= rear; i++)
+        printf(" %c ", queue[i]);
+    printf("]\n");
+    printf("front = %d, rear = %d\n", front, rear);
+}
+int main(void) {
+    element data;
+    printf("\n 0) 초기 상태 -> ");    printQ();
+
+    printf("\n 1) In_que(A)-> ");    
+    In_que('A');    printQ();
+
+    printf("\n 2) In_que(B)-> ");    
+    In_que('B');    printQ();
+
+    printf("\n 3) In_que(C)-> ");    
+    In_que('C');    printQ();
+
+    printf("\n 4) In_que(D)-> ");    
+    In_que('D');    printQ();
+
+    printf("\n 5) In_que(E)-> ");    
+    In_que('E');    printQ();
+
+    printf("\n 6) Del_que() -> ");    
+    data = Del_que();    printQ();
+    printf("\t<Output data : %c>\n", data);
+
+    printf("\n 7) Del_que() -> ");    
+    data = Del_que();    printQ();
+    printf("\t<Output data : %c>\n", data);
+
+    printf("\n 8) In_que(F)-> ");    
+    In_que('F');    printQ();
+
+    return 0;
+}

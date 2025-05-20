@@ -1,0 +1,73 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int stack[10];
+int top = -1;
+
+
+void push(int item) {
+    if (top >= 9) {
+        printf("\n Stack is FULL!\n");
+        return;
+    }
+    stack[++top] = item;
+}
+
+int pop() {
+    if (top == -1) {
+        printf("\n Stack is Empty!!\n");
+        return 0; 
+    }
+    else return stack[top--];
+}
+
+void del() {
+    if (top == -1) {
+        printf("\n Stack is Empty!!\n");
+        exit(1); 
+    }
+    else top--;
+}
+
+int peek() {
+    if (top == -1) {
+        printf("\n Stack is Empty!!\n");
+        exit(1); 
+    }
+    else return stack[top];
+}
+void printStack() {
+    int i;
+    printf("\n STACK [ ");
+    for (i = 0; i <= top; i++)
+        printf("%c ", stack[i]);
+    printf("] ");
+}
+
+int main() {
+    
+    printf("2025-05-08,24115960, 백수진\n");
+    
+    char item;
+    printStack();
+    push('A');  printStack();
+    push('B');  printStack();
+    push('C');  printStack();
+    
+    
+    item = pop(); printStack();
+    printf("pop top => %c\n", item);
+    
+    item = pop(); printStack();
+    printf("\t pop top => %c\n", item);
+
+    push('D'); printStack();
+
+    item = pop(); printStack();
+    printf("\t pop top => %c\n", item);
+
+    item = pop(); printStack();
+    printf("\t pop top => %c\n", item);
+
+    pop();
+}

@@ -1,0 +1,107 @@
+#include <stdio.h>
+#include <string.h>
+
+int stack[10];
+int top = -1;
+
+void push(int item) {
+    if (top >= 9) {
+        printf("\n Stack is FULL !\n");
+        return;
+    }
+    else stack[++top] = item;
+}
+
+int pop() {
+    if (top == -1) {
+        printf("\n Stack is Empty!!\n");
+        return 0;
+    }
+    else return stack[top--];
+}
+
+void del() {
+    if (top == -1) {
+        printf("\n Stack is Empty !\n");
+        exit(1);
+    }
+    else top--;
+}
+
+int peek() {
+    if (top == -1) {
+        printf("\n Stack is Empty !\n");
+        exit(1);
+    }
+    else return stack[top];
+}
+
+void printStack() {
+    int i;
+    printf("\n STACK [ ");
+    for (i = 0; i <= top; i++)
+        printf("%d ", stack[i]);
+    printf("]");
+}
+int priority(char op) { // 연산자의 우선순위 부여
+    switch (op) {
+        case '(': case ')': return 0;
+        case '+': case '-': return 1;
+        case '*': case '/': return 2;
+    }
+    return -1;
+}
+
+// 중위 표기식을 후위 표기식으로 변환
+char infix_to_postfix(char exp[]) {
+    int i = 0;
+    char ch, top_op;
+    int len = strlen(exp);
+
+    for (i = 0; i < len; i++) {
+        ch = exp[i];
+        switch (ch) {
+            case '+': case '-': case '*': case '/': // 연산자
+                // 스택에 있는 연산자의 우선순위가 더 크거나 같으면 출력
+                while ((top != -1) && (priority(ch) <= priority(peek())))
+                    printf("%c", pop());
+                push(ch);
+                break;
+
+            case '(': // 왼쪽 괄호
+                push(ch);
+                break;
+
+            case ')': // 오른쪽 괄호
+                top_op = pop();
+                while (top_op != '(') { // 왼쪽 괄호 만날 때까지 출력
+                    printf("%c", top_op);
+                    top_op = pop();
+                }
+                break;
+
+            default: // 피연산자
+                printf("%c", ch);
+                break;
+        }
+    }
+
+    while (top != -1) // 스택에 저장된 연산자 출력
+        printf("%c", pop());
+
+    printf("\n");
+}
+
+void main() {
+    char exp[] = "9 / ( 2 + 1 ) * 5 - 4 * 3";
+    int len = strlen(exp);
+    printf("2025-05-08,24115960,백수진\n");
+    
+    printf("산술식 : ");
+    for (int i = 0; i < len; i++)
+        printf("%c", exp[i]);
+    printf("\n");
+
+    printf("후위 표기법 : ");
+    infix_to_postfix(exp);
+}

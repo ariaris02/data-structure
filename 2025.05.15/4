@@ -1,0 +1,56 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int stack[10];
+int top = -1;
+
+void push(int item) {
+    if (top >= 9) {
+        printf("\n Stack is FULL!\n");
+        return;
+    }
+    stack[++top] = item;
+}
+
+int pop() {
+    if (top == -1) {
+        printf("\n Stack is Empty!!\n");
+        return 0; 
+    }
+    return stack[top--];
+}
+
+void printStack() {
+    int i;
+    printf("\n STACK [ ");
+    for (i = top; i >= 0; i--) // 🔄 상단부터 출력
+        printf("%c ", stack[i]);
+    printf("] ");
+}
+
+int main() {
+    printf("2025-05-08,24115960, 백수진");
+
+    char item;
+
+    printStack(); // STACK [ ]
+    push('A'); printStack(); // STACK [ A ]
+    push('B'); printStack(); // STACK [ B A ]
+    push('C'); printStack(); // STACK [ C B A ]
+
+    item = pop(); printStack(); // pop C
+    printf(" pop top => %c\n", item);
+
+    item = pop(); printStack(); // pop B
+    printf("\t pop top => %c\n", item);
+
+    push('D'); printStack();    // push D → STACK [ D A ]
+
+    item = pop(); printStack(); // pop D
+    printf("\t pop top => %c\n", item);
+
+    item = pop(); printStack(); // pop A
+    printf("\t pop top => %c\n", item);
+
+    pop(); // Stack empty
+}

@@ -1,0 +1,137 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <conio.h>
+
+#define MAX_STACK_SIZE 100		/* 스택의 최대 길이 */
+#define ROW_SIZE 11				/* 현 미로의 최대 행 길이 */
+#define COL_SIZE 15				/* 현 미로의 최대 열 길이 */
+#define TRUE 1
+#define FALSE 0
+
+typedef struct {		/* 미로탐색 경로가 들어갈 스택 */
+	int row;
+	int col;
+	int dir;
+}element;
+element stack[MAX_STACK_SIZE];
+
+int top = -1;			/* 스택의 top변수 */
+
+typedef struct {		/* 8방향의 좌표를 가질 구조체 */
+	int vert;
+	int horiz;
+}offsets;
+offsets move[8];
+
+void path(void);						/* 미로를 탐색하는 함수 */
+void stack_full();						/* overflow일 때의 처리 */
+element stack_empty();				/* 스택에 자료가 없을 때의 처리 */
+
+int mark[ROW_SIZE+2][COL_SIZE+2] ;	/* 탐색한 경로를 표시할 배열 */
+int	maze[ROW_SIZE+2][COL_SIZE+2] = {	/* 미로를 구성하는 배열 (바깥테두리는 모두 1로 표시)*/
+		{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}, {1,0,1,0,0,0,1,1,0,0,0,1,1,1,1,1,1}, {1,1,0,0,0,1,1,0,1,1,1,0,0,1,1,1,1},
+		{1,0,1,1,0,0,0,0,1,1,1,1,0,0,1,1,1}, {1,1,1,0,1,1,1,1,0,1,1,0,1,1,0,0,1}, {1,1,1,0,1,0,0,1,0,1,1,1,1,1,1,1,1},
+		{1,0,0,1,1,0,1,1,1,0,1,0,0,1,0,1,1}, {1,0,1,1,1,1,0,0,1,1,1,1,1,1,1,1,1}, {1,0,0,1,1,0,1,1,0,1,1,1,1,1,0,1,1},
+		{1,1,1,0,0,0,1,1,0,1,1,0,0,0,0,0,1}, {1,0,0,1,1,1,1,1,0,0,0,1,1,1,1,0,1}, {1,0,1,0,0,1,1,1,1,1,0,1,1,1,1,0,1},
+		{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1} };
+
+int EXIT_ROW = ROW_SIZE, EXIT_COL = COL_SIZE; 	/* 미로의 시작점은 1,1이고 끝나는 점을 가리키는 변수 */
+
+void add(int *top, element item) {		/* 스택에 자료를 삽입하는 함수 (push) */
+	if(*top >= MAX_STACK_SIZE-1) {
+		stack_full();
+		return;
+	}
+	stack[++(*top)] = item;
+}
+
+element del(int *top) {		/* 스택에서 자료를 삭제하는 함수 (pop) */
+	if(*top == -1)
+		return stack_empty();
+	return stack[(*top)--];
+}
+			
+void main(void) {
+    printf("2025-05-15, 24115960, 백수진\n");
+		int i, j;
+		for(i=0;i<=ROW_SIZE+1; i++)
+			for(j=0; j<=COL_SIZE+1; j++) mark[i][j]=0; 	/* mark배열을 0으로 초기화 */
+		move[0].vert = -1;			move[0].horiz =  0; 	/* 8가지 방향에 대한 좌표변동값을 저장 */
+		move[1].vert = -1;			move[1].horiz =  1;
+		move[2].vert =  0;			move[2].horiz =  1;
+		move[3].vert =  1;			move[3].horiz =  1;
+		move[4].vert =  1;			move[4].horiz =  0;
+		move[5].vert =  1;			move[5].horiz = -1;
+		move[6].vert =  0;			move[6].horiz = -1;
+		move[7].vert = -1;			move[7].horiz = -1;
+
+		path();				/* 미로 탐색함수를 실행 */
+}
+void path(void)
+{
+		int i, row, col, next_row, next_col, dir, found = FALSE;
+		/* 차례대로 : 반복문을 위한 변수, 행, 렬, 다음행, 다음렬, 방위, 현재 위치에서 다음 이동할 곳을 찾았는지 여부 */
+
+		element position;
+		/* 현재 위치에 대한 좌표값을 갖는 구조체 변수 */
+
+		mark[1][1] = 1;		/* 처음 시작지점 */
+		top =0;				/* 스택에 처음 시작위치를 입력. */
+		stack[0].row = 1; 
+		stack[0].col = 1; 
+		stack[0].dir = 1;
+
+		while(top > -1 && !found) { /* 도착지점을 찾지 못할 경우 즉 길이 막혔을 경우 루프를 벗어남.(스택으로 모든 자료값을
+			del시키면서 처음 시작위치로 돌아올 때까지 다음 이동위치를 찾아보았지만 못찾았을 경우 top은 -1이 된다 */
+		
+			position = del(&top);  /* 스택의 가장최근에 입력된 자료를 현재의 위치로 지정 */
+			row=position.row; 
+			col=position.col;
+			dir=position.dir;
+			while(dir < 8 && !found) {	/* 순차적으로 8가지 방향을 검사해 보며 탐색을 하므로, dir이 8과 같다는 것은				 모든 방향을 다찾아 보았지만, 다음 이동할 위치를 못찾았음을 표시하는 내용임 */
+
+				next_row = row + move[dir].vert;	/* 현 좌표에서 이동할 수 있는 위치를 계산 */
+				next_col = col + move[dir].horiz;
+			
+				if(next_row == EXIT_ROW && next_col == EXIT_COL) found = TRUE; /* 만약 그곳이 출구라면 도착 표시 
+						아니라면, 그곳이 0즉 갈수 있는 곳이고, 기존에 한번도 오지 않았던 곳이라면, 그곳의 좌표를 스택에 입력,
+						아니면, 다음 이동할 수 있는 위치로 다시 반복 */
+				else if(!maze[next_row][next_col] && !mark[next_row][next_col]) {
+					mark[next_row][next_col] = 1;		
+					position.row = row;
+					position.col = col;
+					position.dir = ++dir;
+					add(&top, position);
+					row = next_row;
+					col = next_col;
+					dir = 0;
+			}
+			else ++dir;
+		}
+	}
+		if(found) {		/* 출구를 찾았으면, 스택에 저장된 좌표들을 출력 */
+			printf("The path is:\n");
+			printf("  row col\n");
+			for(i = 0; i<=top; i++) {
+				printf(" <%3d,%3d> ", stack[i].row, stack[i].col);
+				if((i+1)%6 == 0) printf("\n");
+		}
+		printf(" <%3d,%3d> ", row, col);
+		printf(" <%3d,%3d>\n", EXIT_ROW, EXIT_COL);
+	}
+	else printf(" The maze does not have a path\n");	/* 못찾았으면 에러표시 */
+}
+
+void stack_full() {
+  fprintf(stderr, "Stack is full !! \n");
+}
+
+element stack_empty() {
+	element item;
+	item.col = -1;
+	item.dir = -1;
+	item.row = -1;
+	fprintf(stderr,"Stack is empty !! \n");
+	return item;
+}

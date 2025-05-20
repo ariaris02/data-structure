@@ -1,0 +1,103 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+typedef int element;
+
+typedef struct linked_stack {
+    element data;
+    struct linked_stack* link;
+} linked_stack;
+
+linked_stack* top;
+
+void push(element item) {
+    linked_stack* temp = (linked_stack*)malloc(sizeof(linked_stack));
+    temp->data = item;
+    temp->link = top;
+    top = temp;
+}
+
+element pop() {
+    element item;
+    linked_stack* temp = top;
+
+    if (top == NULL) {
+        printf("\n Stack is empty !\n");
+        return 0;
+    }
+    else {
+        item = temp->data;
+        top = temp->link;
+        free(temp);
+        return item;
+    }
+}
+
+element peek() {
+    element item;
+    if (top == NULL) {
+        printf("\n Stack is empty !\n");
+        return 0;
+    }
+    else {
+        item = top->data;
+        return item;
+    }
+}
+void del() {
+    linked_stack* temp;
+    if (top == NULL)
+        printf("\n Stack is empty !\n");
+    else {
+        temp = top;
+        top = top->link;
+        free(temp);
+    }
+}
+
+void printStack() {
+    linked_stack* p = top;
+    printf(" STACK [ ");
+    while (p) {
+        printf("%d ", p->data);
+        p = p->link;
+    }
+    printf("]\n");
+}
+
+void main(void) {
+    element item;
+    
+    printf("2025-05-08, 24115960, 백수진\n");
+    
+    printf("* 공백 스택 \t");
+    top = NULL;  printStack();
+
+    printf("* push(1) \t");
+    push(1);     printStack();
+
+    printf("* push(2) \t");
+    push(2);     printStack();
+
+    printf("* push(3) \t");
+    push(3);     printStack();
+
+    printf("* peek() \t");
+    item = peek();  printStack();
+    printf("\t peek data => %d\n", item);
+
+    printf("* del() \t");
+    del();        printStack();
+
+    printf("* pop() \t");
+    item = pop(); printStack();
+    printf("\t pop data => %d\n", item);
+
+    printf("* pop() \t");
+    item = pop(); printStack();
+    printf("\t pop data => %d\n", item);
+
+    printf("* pop() \t");
+    pop();        printStack();
+}

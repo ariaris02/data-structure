@@ -1,0 +1,79 @@
+// 후위 표기식의 계산
+#include <stdio.h>
+#include <string.h>
+
+int stack[10];
+int top = -1;
+
+void push(int item) {
+    if (top >= 9) {
+        printf("\n Stack is FULL ! \n");
+        return;
+    }
+    else stack[++top] = item;
+}
+
+int pop() {
+    if (top == -1) {
+        printf("\n Stack is Empty!!!\n");
+        return 0;
+    }
+    else return stack[top--];
+}
+
+void del() {
+    if (top == -1) {
+        printf("\n Stack is Empty !\n");
+        exit(1);
+    }
+    else top--;
+}
+
+int peek() {
+    if (top == -1) {
+        printf("\n Stack is Empty !\n");
+        exit(1);
+    }
+    else return stack[top];
+}
+
+void printStack() {
+    int i;
+    printf("\n STACK [ ");
+    for (i = 0; i <= top; i++)
+        printf("%d ", stack[i]);
+    printf("] ");
+}
+
+int eval(char exp[]) {
+    int item1, item2, value, i = 0;
+    int len = strlen(exp);
+    char ch;
+
+    for (i = 0; i < len; i++) {
+        ch = exp[i];
+        if (ch != '+' && ch != '-' && ch != '*' && ch != '/') {
+            value = ch - '0';  // 입력이 피연산자이면
+            push(value);
+        }
+        else {  // 연산자이면 피연산자를 스택에서 제거
+            item2 = pop();
+            item1 = pop();
+            switch (ch) {  // 연산을 수행하고 스택에 저장
+                case '+': push(item1 + item2); break;
+                case '-': push(item1 - item2); break;
+                case '*': push(item1 * item2); break;
+                case '/': push(item1 / item2); break;
+            }
+        }
+    }
+    return pop();
+}
+
+void main() {
+    int result;
+    printf("2025-05-15, 24115960, 백수진\n");
+    printf("후위표기식은 82/3-32*+ \n");
+    result = eval("82/3-32*+");
+    printf("결과값은 %d\n", result);
+}

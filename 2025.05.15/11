@@ -1,0 +1,88 @@
+// [실습 #7-2] CQueue_array
+#include <stdio.h>
+#include <stdlib.h>
+#define Q_SIZE 5
+
+typedef char element;
+element cqueue[Q_SIZE];
+int front = 0, rear = 0; // 초기값: 0
+
+void In_Cque(element item) {
+    rear = (rear + 1) % Q_SIZE;
+    if (rear == front) {
+        printf(" Queue is full! \n");
+        exit(1);
+    }
+    else cqueue[rear] = item;
+}
+
+element Del_Cque() {
+    if (front == rear) {
+        printf(" Queue is empty! \n");
+        exit(1);
+    }
+    else {
+        front = (front + 1) % Q_SIZE;
+        return cqueue[front];
+    }
+}
+
+void printQ() {
+    int i, first, last;
+    first = (front + 1) % Q_SIZE;
+    last = (rear + 1) % Q_SIZE;
+    printf("Queue: [ ");
+    i = first;
+    while (i != last) {
+        printf("%c ", cqueue[i]);
+        i = (i + 1) % Q_SIZE;
+    }
+    printf("]\n");
+    printf("front = %d, rear = %d\n", front, rear);
+}
+
+int main(void) {
+    element data;
+    printf("2025,05,08, 24115960, 백수진\n");
+    printf("\n 0) 초기 상태 -> "); printQ();
+
+    printf("\n 1) In_Cque(A)-> ");
+    In_Cque('A'); printQ();
+
+    printf("\n 2) In_Cque(B)-> ");
+    In_Cque('B'); printQ();
+
+    printf("\n 3) In_Cque(C)-> ");
+    In_Cque('C'); printQ();
+
+    printf("\n 4) In_Cque(D)-> ");
+    In_Cque('D'); printQ();
+
+    printf("\n 5) In_Cque(E)-> ");
+    In_Cque('E'); printQ();  // 3번 문제에서 주석으로 처리될 부분
+
+    printf("\n 6) Del_Cque() -> ");
+    data = Del_Cque(); printQ();
+    printf("\t<Output data : %c>\n", data);
+
+    printf("\n 7) Del_Cque() -> ");
+    data = Del_Cque(); printQ();
+    printf("\t<Output data : %c>\n", data);
+
+    printf("\n 8) In_Cque(D)-> ");
+    In_Cque('D'); printQ();
+
+    printf("\n 9) Del_Cque() -> ");
+    data = Del_Cque(); printQ();
+    printf("\t<Output data : %c>\n", data);
+
+    printf("\n10) Del_Cque() -> ");
+    data = Del_Cque(); printQ();
+    printf("\t<Output data : %c>\n", data);
+
+    printf("\n11) Del_Cque() -> ");
+    data = Del_Cque(); printQ();
+    printf("\t<Output data : %c>\n", data);
+
+    return 0;
+}
