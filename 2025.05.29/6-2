@@ -1,0 +1,89 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct treeNode {
+    int key;
+    struct treeNode* left;
+    struct treeNode* right;
+} treeNode;
+
+// 삽입 함수
+treeNode* insertKey(treeNode *p, int x) {
+    treeNode *newNode;
+    if (p == NULL) {
+        newNode = (treeNode*)malloc(sizeof(treeNode));
+        newNode->key = x;
+        newNode->left = NULL;
+        newNode->right = NULL;
+        return newNode;
+    }
+    else if (x < p->key) {
+        p->left = insertKey(p->left, x);
+        return p;
+    }
+    else if (x > p->key) {
+        p->right = insertKey(p->right, x);
+        return p;
+    }
+    else {
+        printf("\n이미 같은 키가 있습니다!\n");
+        return p;
+    }
+}
+
+// 검색 함수
+treeNode* searchBST(treeNode* root, int x) {
+    treeNode* p = root;
+    while (p != NULL) {
+        if (x < p->key)
+            p = p->left;
+        else if (x == p->key)
+            return p;
+        else
+            p = p->right;
+    }
+    printf("\n찾는 키가 없습니다!\n");
+    return NULL;
+}
+
+// 삽입 wrapper
+void insert(treeNode** root, int x) {
+    *root = insertKey(*root, x);
+}
+
+int main() {
+    treeNode* root = NULL;
+    treeNode* foundedNode = NULL;
+    int key;
+
+    // 삽입
+    insert(&root, 27);
+    insert(&root, 15);
+    insert(&root, 35);
+    insert(&root, 1);
+    insert(&root, 19);
+    insert(&root, 1);   // 중복 삽입 테스트
+    insert(&root, 49);
+    insert(&root, 87);
+    insert(&root, 65);
+    insert(&root, 12);
+
+    printf("2025-05-22, 24115960, 백수진\n");
+
+    printf("\n찾을 숫자를 입력하세요 : ");
+    scanf("%d", &key);
+
+    while (key != -1) {
+        foundedNode = searchBST(root, key);
+        if (foundedNode != NULL) {
+            printf("\n%d 키를 찾았습니다!\n", foundedNode->key);
+        } else {
+            printf("\n키를 찾지 못했습니다.\n");
+        }
+
+        printf("\n\n찾을 숫자를 입력하세요 : ");
+        scanf("%d", &key);
+    }
+
+    return 0;
+}

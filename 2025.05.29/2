@@ -1,0 +1,57 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef int element;
+
+typedef struct treeNode {
+    element data;
+    struct treeNode* left;
+    struct treeNode* right;
+} treeNode;
+
+treeNode* makeRootNode(element data, treeNode* leftNode, treeNode* rightNode) {
+    treeNode* root = (treeNode*)malloc(sizeof(treeNode));
+    root->data = data;
+    root->left = leftNode;
+    root->right = rightNode;
+    return root;
+}
+
+void preorder(treeNode* root) {
+    if (root) {
+        printf("%d ", root->data);
+        preorder(root->left);
+        preorder(root->right);
+    }
+}
+
+void inorder(treeNode* root) {
+    if (root) {
+        inorder(root->left);
+        printf("%d ", root->data);
+        inorder(root->right);
+    }
+}
+void postorder(treeNode* root) {
+    if (root) {
+        postorder(root->left);
+        postorder(root->right);
+        printf("%d ", root->data);
+    }
+}
+
+void main() {
+    printf("2025-05-22, 24115960, 백수진\n");
+    treeNode* n3 = makeRootNode(30, NULL, NULL);
+    treeNode* n2 = makeRootNode(20, NULL, NULL);
+    treeNode* n1 = makeRootNode(10, n2, n3);
+
+    printf("\n preorder  : ");
+    preorder(n1);
+
+    printf("\n inorder   : ");
+    inorder(n1);
+
+    printf("\n postorder : ");
+    postorder(n1);
+}

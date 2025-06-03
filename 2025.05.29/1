@@ -1,0 +1,111 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef char element;
+
+typedef struct linked_que {
+	element data;
+	struct linked_que* link;
+} linked_que;
+
+linked_que* front = NULL, * rear = NULL;
+
+void In_que(element item) {
+	linked_que* temp = (linked_que*)malloc(sizeof(linked_que));
+	temp->data = item;
+	temp->link = NULL;
+	if (rear == NULL) {
+		front = temp;
+		rear = temp;
+	}
+	else {
+		rear->link = temp;
+		rear = temp;
+	}
+}
+
+element Del_que() {
+	element item;
+	linked_que* target = front;
+	if (target == NULL) {
+		printf("Queue is Empty!");
+		exit(1);
+	}
+	else {
+		item = target->data;
+		front = target->link;
+	}
+	free(target);
+	return item;
+}
+
+void printQ() {
+	linked_que* p = front;
+	printf("QUEUE[");
+	while (p) {
+		printf(" %c", p->data);
+		p = p->link;
+	}
+	printf(" ] ");
+	if (front == NULL) {
+		printf("Queue is Empty!\n");
+	}
+	else {
+		printf("    front=%c, rear=%c\n", front->data, rear->data);
+	}
+}
+int main() {
+	element data;
+	printf("\n 0) 초기 상태 -> ");
+	printQ();
+
+	printf("\n 1) In_que(A) -> ");
+	In_que('A');
+	printQ();
+
+	printf("\n 2) In_que(B) -> ");
+	In_que('B');
+	printQ();
+
+	printf("\n 3) In_que(C) -> ");
+	In_que('C');
+	printQ();
+
+	printf("\n 4) In_que(D) -> ");
+	In_que('D');
+	printQ();
+
+	printf("\n 5) In_que(E) -> ");
+	In_que('E');
+	printQ();  
+
+	printf("\n 6) Del_que() -> ");
+	data = Del_que();
+	printQ();
+	printf("\t<Output data : %c>\n", data);
+
+	printf("\n 7) Del_que() -> ");
+	data = Del_que();
+	printQ();
+	printf("\t<Output data : %c>\n", data);
+
+	printf("\n 8) In_que(F) -> ");
+	In_que('F');
+	printQ();
+
+	printf("\n 9) Del_que() -> ");
+	data = Del_que();
+	printQ();
+	printf("\t<Output data : %c>\n", data);
+
+	printf("\n10) Del_que() -> ");
+	data = Del_que();
+	printQ();
+	printf("\t<Output data : %c>\n", data);
+
+	printf("\n11) In_que(K) -> ");
+	In_que('K');
+	printQ();
+
+	return 0;
+}
